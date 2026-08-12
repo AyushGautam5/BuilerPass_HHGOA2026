@@ -89,6 +89,7 @@
   .seg button.active{ background: var(--amber); color: var(--void-deep); font-weight:700; }
 
   .dropzone{
+    display:block;
     border: 1.5px dashed var(--line);
     border-radius: 16px;
     padding: 28px 16px;
@@ -196,12 +197,12 @@
       <button id="segB" role="tab" aria-selected="false">BUILDER ID</button>
     </div>
 
-    <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Upload a photo">
+    <label id="dropzone" for="fileInput" class="dropzone" tabindex="0" role="button" aria-label="Upload a photo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       <div class="dz-title">Drop a photo, or tap to upload</div>
       <div class="dz-sub">JPG, PNG, HEIC from your iPhone — all good.<br>Processed on your device. Nothing is uploaded or stored.</div>
       <input type="file" id="fileInput" accept="image/*,.heic,.heif">
-    </div>
+    </label>
 
     <div id="stage" class="stage">
       <div class="canvas-wrap">
@@ -910,8 +911,10 @@
   }
 
   fileInput.addEventListener('change', (e) => onFile(e.target.files[0]));
-  dropzone.addEventListener('click', () => fileInput.click());
-  dropzone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+  // dropzone is a native <label for="fileInput">, so clicking/tapping it opens
+  // the file picker via browser-native behavior — no JS click-forwarding needed.
+  // Keep a keydown fallback since labels don't natively respond to Enter/Space.
+  dropzone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
   ['dragover'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('drag'); }));
   ['dragleave','drop'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.remove('drag'); }));
   dropzone.addEventListener('drop', (e) => { const f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) onFile(f); });
