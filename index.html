@@ -994,17 +994,22 @@
     setTimeout(() => URL.revokeObjectURL(url), 4000);
   }
 
-  function buildCaption(){
-    if (state.format === 'A'){
-      return 'Locked in for HH Goa 2026 🌅💻 #FrameInGoa';
-    }
-    const who = state.name ? state.name : 'a builder';
-    const title = state.title || 'Builder';
-    return `Hey guys! 👋I’m all set with my Builder Pass to rock HHGOA 2K26! 🥳🔥
-    When are you getting yours? 👀
-    👉 https://builer-pass-hhgoa-2026.vercel.app/
-    @247pmstudio #FrameInGoa
-`;
+function buildCaption(){
+  if (state.format === 'A'){
+    return 'Locked in for HH Goa 2026 🌅💻 #FrameInGoa';
+  }
+
+  const who = state.name ? state.name : 'a builder';
+  const title = state.title || 'Builder';
+
+  return `Hey guys! 👋
+
+I’m all set with my Builder Pass to rock HHGOA 2K26! 🥳🔥
+When are you getting yours? 👀
+
+👉 https://builer-pass-hhgoa-2026.vercel.app/
+
+@247pmstudio #FrameInGoa`;
   }
 
   function getCanvasBlob(){
